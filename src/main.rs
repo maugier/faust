@@ -66,7 +66,10 @@ async fn fetch(url: String, client: Client, permit: SemaphorePermit<'static>) ->
         Ok(r) => {
             let code = r.status();
             if code.is_redirection() {
-                println!("{}\t{} {}", url, code.as_str(), r.url());
+                let dest = r.headers().get("Location")
+                    .and_then(|d| d.to_str().ok())
+                    .unwrap_or("?");
+                println!("{}\t{} {}", url, code.as_str(), dest);
             } else {
                 println!("{}\t{}", url, code);
             }
