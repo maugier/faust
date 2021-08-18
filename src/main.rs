@@ -17,10 +17,12 @@ use clap::{Clap, AppSettings};
 #[clap(about="Perform https HEAD requests en masse, logging status codes")]
 #[clap(setting = AppSettings::ColoredHelp)]
 struct Config {
-    #[clap(short, default_value="1024", value_name="CONNECTIONS")]
+    #[clap(short, default_value="1024", value_name="CONNECTIONS", about="Maximum parallel connections to make")]
     connections: usize,
-    #[clap(short, default_value="10", value_name="SECONDS")]
+    #[clap(short, default_value="10", value_name="SECONDS", about="Request timeout")]
     timeout: u64,
+    #[clap(short, about="Ignore HTTPS certificate validation")]
+    no_verify: bool,
 }
 
 fn main() -> Result<()> {
@@ -44,6 +46,7 @@ async fn run(conf: Config) -> Result<()> {
     let client = Client::builder()
         .redirect(Policy::none())
         .timeout(Duration::from_secs(conf.timeout))
+        .danger_accept_invalid_certs(conf.no_verify)
         .build()?;
 
     while let Some(url) = stdin.next_line().await? {
