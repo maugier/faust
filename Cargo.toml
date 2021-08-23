@@ -1,10 +1,10 @@
 [package]
 name = "faust"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Maxime Augier <max@xolus.net>"]
 edition = "2018"
 license = "MIT"
-description = "FAst Url STatus checker"
+description = "Fast Async Url STatus checker"
 repository = "https://github.com/maugier/faust"
 homepage = "https://github.com/maugier/faust"
 keywords = ["cli"]
