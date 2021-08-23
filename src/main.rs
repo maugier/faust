@@ -28,6 +28,10 @@ struct Config {
 fn main() -> Result<()> {
 
     let config = Config::parse();
+
+    #[cfg(unix)]
+    limit::check(config.connections as u64 + 10)?;
+
     tokio::runtime::Builder::new_multi_thread()
         .enable_all()
         .build()
@@ -76,4 +80,26 @@ async fn fetch(url: String, client: Client, permit: SemaphorePermit<'static>) ->
         }
     }
     drop(permit);
+}
+
+#[cfg(unix)]
+mod limit {
+
+    use super::Result;
+    use rlimit::Resource;
+
+    pub fn check(conns: u64) -> Result<()> {
+        let (soft, hard) = Resource::NOFILE.get()?;
+
+        if hard < conns {
+            panic!("Error: not enough file descriptors (requested: {}, allowed: {})", conns, hard);
+        }
+
+        if soft < conns {
+            eprintln!("Notice: Increasing fd soft limit from {} to {}.", soft, conns);
+            Resource::NOFILE.set(conns, hard)?
+        }
+
+        Ok(())
+    }
 }

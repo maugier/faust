@@ -40,11 +40,8 @@ sys     0m0.009s
 
 ## Caveats
 
-Faust easily scales to tens of thousands of connections, but you need to adjust the maximum file descriptor limit accordingly:
-
-```
-$ ulimit -n 65536
-```
+Faust easily scales to tens of thousands of connections, but needs
+an adequate number of allowed file descriptors. If it refuses to run for this reason, you may need to adjust the limits in `/etc/security/limits.*`.
 
 If you are behind NAT, such a large number of connections may crash cheap home routers or severely degrade their performance.
 
