@@ -64,16 +64,22 @@ async fn run(conf: Config) -> Result<()> {
 
 }
 
+
 async fn fetch(url: String, client: Client, permit: SemaphorePermit<'static>) -> () {
     match client.head(&url).send().await {
-        Err(e) => println!("{}\t000 {}", url, e),
+        Err(e) => {
+            const TO_CLEAN: [char; 2] = ['\t', '\n'];
+            let msg = e.to_string()
+                .replace(&TO_CLEAN[..], " ");
+            println!("{}\t000\t{}", url, msg)
+        },
         Ok(r) => {
             let code = r.status();
             if code.is_redirection() {
                 let dest = r.headers().get("Location")
                     .and_then(|d| d.to_str().ok())
                     .unwrap_or("?");
-                println!("{}\t{} {}", url, code.as_str(), dest);
+                println!("{}\t{}\t{}", url, code.as_str(), dest);
             } else {
                 println!("{}\t{}", url, code);
             }
