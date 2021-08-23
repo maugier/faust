@@ -11,8 +11,7 @@ It can easily scale to tens of thousands of parallel requests, and process thous
 If you have Rust and Cargo installed:
 
 ```
-$ cargo build --release
-$ cp target/release/faust ~/.local/bin
+$ cargo install faust
 ```
 
 ## Running
