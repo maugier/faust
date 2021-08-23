@@ -17,11 +17,11 @@ use clap::{Clap, AppSettings, crate_version, crate_authors};
 #[clap(about="Perform HTTP(S) HEAD requests en masse, logging status codes")]
 #[clap(setting = AppSettings::ColoredHelp)]
 struct Config {
-    #[clap(short, default_value="1000", value_name="CONNECTIONS", about="Maximum parallel connections to make")]
+    #[clap(short, long, default_value="1000", value_name="CONNECTIONS", about="Maximum parallel connections to make")]
     connections: usize,
-    #[clap(short, default_value="10", value_name="SECONDS", about="Request timeout")]
+    #[clap(short, long, default_value="10", value_name="SECONDS", about="Request timeout")]
     timeout: u64,
-    #[clap(short, about="Ignore TLS certificate validation")]
+    #[clap(short='k', long="insecure", about="Ignore TLS certificate validation")]
     no_verify: bool,
 }
 
