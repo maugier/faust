@@ -9,8 +9,9 @@ repository = "https://github.com/maugier/faust"
 homepage = "https://github.com/maugier/faust"
 keywords = ["cli"]
 
-[dependencies]
-clap = "3.0.0-beta.4"
+[dependencies.clap]
+version = "3.2"
+features = ["derive"]
 
 [target.'cfg(unix)'.dependencies]
 rlimit = "0.6"
@@ -21,7 +22,7 @@ default-features = false
 features = ["rustls-tls-native-roots", "trust-dns"]
 
 [dependencies.tokio]
-version = "1.6"
+version = "1.19"
 features = ["rt", "rt-multi-thread", "io-util", "io-std", "sync"]
 
 [profile.release]
