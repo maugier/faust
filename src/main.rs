@@ -10,23 +10,22 @@ use std::time::Duration;
 
 type Result<T> = std::result::Result<T, Box<dyn Error + 'static>>;
 
-use clap::{Parser, AppSettings};
+use clap::Parser;
 
 #[derive(Parser)]
-#[clap(author, version, about, long_about=None)]
-#[clap(about="Perform HTTP(S) HEAD requests en masse, logging status codes")]
-#[clap(setting = AppSettings::ColoredHelp)]
+#[command(author, version, about)]
+#[command(about="Perform HTTP(S) HEAD requests en masse, logging status codes")]
 struct Config {
     /// Maximum parallel connections to make
-    #[clap(short, long, default_value="1000", value_name="CONNECTIONS")]
+    #[arg(short, long, default_value="1000", value_name="CONNECTIONS")]
     connections: usize,
 
     /// Request timeout
-    #[clap(short, long, default_value="10", value_name="SECONDS")]
+    #[arg(short, long, default_value="10", value_name="SECONDS")]
     timeout: u64,
 
     /// Ignore TLS certificate validation
-    #[clap(short='k', long="insecure")]
+    #[arg(short='k', long="insecure")]
     no_verify: bool,
 }
 

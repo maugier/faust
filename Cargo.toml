@@ -1,6 +1,6 @@
 [package]
 name = "faust"
-version = "1.0.2"
+version = "1.0.3"
 authors = ["Maxime Augier <max@xolus.net>"]
 edition = "2018"
 license = "MIT"
@@ -10,11 +10,11 @@ homepage = "https://github.com/maugier/faust"
 keywords = ["cli"]
 
 [dependencies.clap]
-version = "3.2"
+version = "4.4"
 features = ["derive"]
 
 [target.'cfg(unix)'.dependencies]
-rlimit = "0.6"
+rlimit = "0.10"
 
 [dependencies.reqwest]
 version = "0.11"
